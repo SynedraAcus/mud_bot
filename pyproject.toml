@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "mud-bot"
+version = "0.1.0"
+description = "A bot for playing async MUD-like exploration game"
+authors = ["A.Morozov <Aleksei_Morozov2@epam.com>"]
+license = "MIT"
+readme = "README.md"
+packages = []
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "^2.25.1"
+aioredis = "<2.0"
+environs = "^9.5.0"
+black = "^23.3.0"
+pre-commit = "^3.3.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+ruff = "^0.0.275"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
