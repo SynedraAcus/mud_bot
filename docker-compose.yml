@@ -8,27 +8,20 @@ services:
     build:
       context: .
     working_dir: "/usr/src/app/${BOT_NAME:-tg_bot}"
-    volumes:
-    - .:/usr/src/app/${BOT_NAME:-tg_bot}
-    command: python3 -m bot
-    restart: always
+    #restart: always
     env_file:
       - ".env"
     networks:
       - tg_bot
     depends_on:
-      - redis
-  redis:
-    image: redis/redis-stack
-    volumes:
-      - ./redis_data:/data
-    expose:
-      - 6379
+      - postgresql
+  postgresql:
+    image: postgres
+    restart: always
+    env_file:
+      - "postgres.env"
     ports:
-      - 1337:8001
-      - 6379:6379
-    environment:
-      - REDIS_ARGS=--requirepass redispwd
+      - 1337:5432
 
 
 networks:
