@@ -15,7 +15,20 @@ services:
     env_file:
       - ".env"
     networks:
-    - tg_bot
+      - tg_bot
+    depends_on:
+      - redis
+  redis:
+    image: redis/redis-stack
+    volumes:
+      - ./redis_data:/data
+    expose:
+      - 6379
+    ports:
+      - 1337:8001
+      - 6379:6379
+    environment:
+      - REDIS_ARGS=--requirepass redispwd
 
 
 networks:
