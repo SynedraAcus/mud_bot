@@ -19,5 +19,5 @@ COPY . /usr/src/app/"${BOT_NAME:-tg_bot}"
 RUN chown -R bot_user:bot_user /usr/src/
 USER bot_user
 
-ENTRYPOINT $POETRY_HOME/bin/poetry run python3 -m bot
+ENTRYPOINT /usr/src/poetry/bin/poetry run python3 -m bot
 CMD tail -f /dev/null >/dev/null

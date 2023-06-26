@@ -61,3 +61,8 @@ venv.bak/
 .pyre/
 .idea/*
 *.env
+
+# storage directory is created for the PostrgreSQL to avoid losing data on
+# container restart. The directory itself should be allowed in git, but not its
+# contents
+./storage/*
