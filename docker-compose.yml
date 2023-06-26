@@ -1,5 +1,6 @@
 version: '3.3'
 
+
 services:
   bot:
     image: "${BOT_IMAGE_NAME:-tg_bot-image}"
@@ -8,7 +9,6 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    working_dir: "/usr/src/app/${BOT_NAME:-tg_bot}"
     #restart: always
     env_file:
       - ".env"
@@ -22,10 +22,12 @@ services:
     env_file:
       - "postgres.env"
     volumes:
-      - ./storage/postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - 1337:5432
 
+volumes:
+  postgres_data:
 
 networks:
   tg_bot:

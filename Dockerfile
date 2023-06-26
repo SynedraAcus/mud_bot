@@ -8,15 +8,13 @@ RUN apt update && \
     apt clean && useradd bot_user
 
 WORKDIR /usr/src/app/"${BOT_NAME:-tg_bot}"
-COPY poetry.lock ./
-COPY pyproject.toml ./
-ENV POETRY_VIRTUALENVS_IN_PROJECT=true
-RUN curl -sSl https://install.python-poetry.org | python3 -
-RUN $POETRY_HOME/bin/poetry install --no-cache --with=dev
-
-
+COPY poetry.lock pyproject.toml ./
 COPY . /usr/src/app/"${BOT_NAME:-tg_bot}"
-RUN chown -R bot_user:bot_user /usr/src/
+ENV POETRY_VIRTUALENVS_IN_PROJECT=true
+RUN curl -sSl https://install.python-poetry.org | python3 - && \
+    $POETRY_HOME/bin/poetry install --no-cache --with=dev && \
+     chown -R bot_user:bot_user /usr/src/
+
 USER bot_user
 
 ENTRYPOINT /usr/src/poetry/bin/poetry run python3 -m bot
