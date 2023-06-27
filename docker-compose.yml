@@ -12,10 +12,10 @@ services:
     #restart: always
     env_file:
       - ".env"
-    networks:
-      - tg_bot
     depends_on:
       - postgresql
+    networks:
+      - tg_bot
   postgresql:
     image: postgres
     restart: always
@@ -25,10 +25,13 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - 1337:5432
-
-volumes:
-  postgres_data:
+    networks:
+      - tg_bot
 
 networks:
   tg_bot:
+    name: tg_bot
     driver: bridge
+
+volumes:
+  postgres_data:
