@@ -4,11 +4,11 @@ PostgreSQL client
 import random
 
 from tgbot.config import load_config
+from tgbot.misc.metaclasses import SingletonMeta
 from psycopg2 import connect
 
 
-class PostgresClient:
-    # TODO: make a singleton
+class PostgresClient(metaclass=SingletonMeta):
     def __init__(self):
         self._config = load_config(".env").db
         self.connection = connect(
