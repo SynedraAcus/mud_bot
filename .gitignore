@@ -66,3 +66,5 @@ venv.bak/
 # container restart. The directory itself should be allowed in git, but not its
 # contents
 ./storage/*
+*.pem
+/EC2.pem
