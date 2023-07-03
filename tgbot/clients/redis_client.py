@@ -1,5 +1,5 @@
 from tgbot.misc.metaclasses import SingletonMeta
-from tgbot.config import load_config
+from tgbot.config import config
 from redis import Redis
 
 
@@ -12,7 +12,7 @@ class RedisClient(metaclass=SingletonMeta):
     """
 
     def __init__(self):
-        self._config = load_config(".env").redis
+        self._config = config.redis
         self.connection = Redis(
             host=self._config.host,
             password=self._config.password,

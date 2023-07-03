@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-
-from environs import Env
+from os import getenv
 
 
 @dataclass
@@ -39,27 +38,27 @@ class Config:
     misc: Miscellaneous
 
 
-def load_config(path: str = None):
-    env = Env()
-    env.read_env(path)
-
+def load_config():
     return Config(
         tg_bot=TgBot(
-            token=env.str("BOT_TOKEN"),
-            admin_ids=list(map(int, env.list("ADMINS"))),
-            use_redis=env.bool("USE_REDIS"),
+            token=getenv("BOT_TOKEN"),
+            admin_ids=list(map(int, getenv("ADMINS").split(","))),
+            use_redis=bool(getenv("USE_REDIS")),
         ),
         db=DbConfig(
-            host=env.str("DB_HOST"),
-            password=env.str("DB_PASS"),
-            user=env.str("DB_USER"),
-            database=env.str("DB_NAME"),
-            port=env.str("DB_PORT"),
+            host=getenv("POSTGRES_HOST"),
+            password=getenv("POSTGRES_PASSWORD"),
+            user=getenv("POSTGRES_USER"),
+            database=getenv("POSTGRES_DB"),
+            port=getenv("POSTGRES_PORT"),
         ),
         redis=RedisConfig(
-            host=env.str("REDIS_HOST"),
-            password=env.str("REDIS_PWD"),
-            port=env.str("REDIS_PORT"),
+            host=getenv("REDIS_HOST"),
+            password=getenv("REDIS_PWD"),
+            port=getenv("REDIS_PORT"),
         ),
         misc=Miscellaneous(),
     )
+
+
+config = load_config()
