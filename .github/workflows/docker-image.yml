@@ -28,3 +28,20 @@ jobs:
         context: .
         push: true
         tags: synedraacus/mud_bot:latest
+  
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH interaction with EC2
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{secrets.EC2_HOST}}
+          password: ${{secrets.EC2_PASSWORD}}
+          username: ubuntu
+          script: |
+            cd /home/ubuntu/bot
+            docker compose down
+            curl https://raw.githubusercontent.com/SynedraAcus/mud_bot/master/docker-compose.yml >docker-compose.yml
+            docker rmi synedraacus/mud_bot:latest
+            docker compose up -d
+        
