@@ -45,17 +45,17 @@ jobs:
             curl https://raw.githubusercontent.com/SynedraAcus/mud_bot/master/docker-compose.yml >docker-compose.yml
             docker rmi synedraacus/mud_bot:latest
             export BOT_NAME=mud_bot
-            export BOT_TOKEN=6212535132:AAFGmGnTrWfwJQduB3ZcpyIiRedmDbs3RZg
+            export BOT_TOKEN=${{secrets.BOT_TOKEN}}
             export ADMINS=123456,654321
             export USE_REDIS=False
             export POSTGRES_HOST=postgresql
             export POSTGRES_PORT=5432
-            export POSTGRES_PASSWORD=example_db_password
-            export POSTGRES_USER=example_db_user
+            export POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}}
+            export POSTGRES_USER=${{secrets.POSTGRES_USER}}
             export POSTGRES_DB=bot_info
             export REDIS_HOST=redis
             export REDIS_PORT=6379
-            export REDIS_PWD=test_redis_pwd
-            export REDIS_ARGS="--save 120 50 --appendonly yes --requirepass test_redis_pwd"
+            export REDIS_PWD=${{secrets.REDIS_PWD}}
+            export REDIS_ARGS=${{secrets.REDIS_ARGS}}
             docker compose up -d
         
