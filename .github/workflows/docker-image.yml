@@ -30,6 +30,7 @@ jobs:
         tags: synedraacus/mud_bot:latest
   
   deploy:
+    needs: docker
     runs-on: ubuntu-latest
     steps:
       - name: SSH interaction with EC2
