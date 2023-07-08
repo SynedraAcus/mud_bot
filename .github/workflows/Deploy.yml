@@ -1,37 +1,11 @@
-name: Docker Build and Push
+name: Deploy to EC2
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
   workflow_dispatch:
 
 jobs:
-
-  docker:
-
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@v2
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: synedraacus
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: build and push image
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        push: true
-        tags: synedraacus/mud_bot:latest
-  
   deploy:
-    needs: docker
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: SSH interaction with EC2
         uses: appleboy/ssh-action@v0.1.4
@@ -40,10 +14,7 @@ jobs:
           password: ${{secrets.EC2_PASSWORD}}
           username: ubuntu
           script: |
-            cd /home/ubuntu/bot
-            docker compose down
-            curl https://raw.githubusercontent.com/SynedraAcus/mud_bot/master/docker-compose.yml >docker-compose.yml
-            docker rmi synedraacus/mud_bot:latest
+            echo "EXPORTING ENVIRONMENT VARIABLES"
             export BOT_NAME=mud_bot
             export BOT_TOKEN=${{secrets.BOT_TOKEN}}
             export ADMINS=123456,654321
@@ -57,5 +28,10 @@ jobs:
             export REDIS_PORT=6379
             export REDIS_PWD=${{secrets.REDIS_PWD}}
             export REDIS_ARGS=${{secrets.REDIS_ARGS}}
+            cd /home/ubuntu/bot
+            echo "REPLACING DOCKER CONTAINER"
+            docker compose down
+            docker rmi synedraacus/mud_bot:latest
+            curl https://raw.githubusercontent.com/SynedraAcus/mud_bot/master/docker-compose.yml >docker-compose.yml            
             docker compose up -d
         
