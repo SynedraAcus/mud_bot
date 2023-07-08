@@ -3,9 +3,10 @@ PostgreSQL client
 """
 import random
 
+from psycopg2 import connect
+
 from tgbot.config import config
 from tgbot.misc.metaclasses import SingletonMeta
-from psycopg2 import connect
 
 
 class PostgresClient(metaclass=SingletonMeta):

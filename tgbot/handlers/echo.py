@@ -1,4 +1,5 @@
-from aiogram import types, Dispatcher
+from aiogram import Dispatcher, types
+
 from tgbot.clients.postgres_client import PostgresClient
 from tgbot.clients.redis_client import RedisClient
 

@@ -1,6 +1,7 @@
-from tgbot.misc.metaclasses import SingletonMeta
-from tgbot.config import config
 from redis import Redis
+
+from tgbot.config import config
+from tgbot.misc.metaclasses import SingletonMeta
 
 
 class RedisClient(metaclass=SingletonMeta):
