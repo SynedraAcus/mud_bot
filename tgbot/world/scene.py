@@ -72,7 +72,6 @@ class Scene(BaseModel):
     scene_id: str
     description: str
     additional_descs: list[tuple[Check, str]] = []
-    auto_executed: list[tuple[Check, Command]] = []
     actions: list[Action]  # Scene should have at least 1 action for exiting it
 
 

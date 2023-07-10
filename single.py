@@ -36,10 +36,6 @@ class Engine:
         :return:
         """
         self._current_scene = self.storage.get_scene_by_id(scene_id)
-        if len(self._current_scene.auto_executed) > 0:
-            for check, command in self._current_scene.auto_executed:
-                if self.evaluate_check(check):
-                    self.execute_command()
         self.show()
 
     def evaluate_check(self, check: Check):
