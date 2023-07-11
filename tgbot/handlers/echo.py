@@ -6,7 +6,7 @@ from tgbot.clients.redis_client import RedisClient
 
 async def custom_echo(message: types.Message):
     stripped = message.text[6:]  # filter only sends msgs starting with '/echo '
-    text = f"Here's what you said: {stripped}\n(this echo brought to you by GH actions)"  # noqa: E501
+    text = f"Here's what you said: {stripped}\n(your ID is {message.from_user.id})"  # noqa: E501
     await message.answer(text)
 
 

@@ -54,7 +54,8 @@ async def main():
     register_all_middlewares(dp, config)
     register_all_filters(dp)
     register_all_handlers(dp)
-
+    # Allow multiple handlers to process a message
+    dp.message_handlers.once = False
     # start
     try:
         await dp.start_polling()

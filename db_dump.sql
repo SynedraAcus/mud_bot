@@ -23,7 +23,7 @@ SET row_security = off;
 -- Name: bot_info; Type: DATABASE; Schema: -; Owner: example_db_user
 --
 
-CREATE DATABASE bot_info WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
+CREATE DATABASE bot_info IF NOT EXISTS WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
 
 
 ALTER DATABASE bot_info OWNER TO example_db_user;
