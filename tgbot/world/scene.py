@@ -2,9 +2,8 @@
 Main classes responsible for Scene
 """
 from abc import ABC
+from dataclasses import dataclass, field
 from enum import Enum
-
-from pydantic import BaseModel
 
 
 class CommandType(str, Enum):
@@ -17,7 +16,9 @@ class CommandType(str, Enum):
     set_scene = "set_scene"
 
 
-class Command(BaseModel):
+# Not using Pydantic because its validation breaks in a weird way on Cyrillic-ru
+@dataclass
+class Command:
     """
     A command that Scene emits when interacted with.
 
@@ -25,8 +26,8 @@ class Command(BaseModel):
     """
 
     command: CommandType
-    variable: str | None = None
     value: str | int | bool
+    variable: str | None = None
 
 
 class CheckType(str, Enum):
@@ -39,18 +40,19 @@ class CheckType(str, Enum):
     not_exists = "not_exists"
 
 
-class Check(BaseModel):
+@dataclass
+class Check:
     """
     A check on player variable
     """
 
     check_type: CheckType
     variable: str
-    compare_against: str | int | bool | None = None  # May be none for 'exists'
+    compare_against: str | None = None
 
 
-# @dataclass
-class Action(BaseModel):
+@dataclass
+class Action:
     """
     An action that player can perform in the scene
     """
@@ -62,7 +64,8 @@ class Action(BaseModel):
     description_failure: str | bytes = ""  # Text if failed
 
 
-class Scene(BaseModel):
+@dataclass()
+class Scene:
     """
     A Scene containing a description, an optional list of additional descs,
     and possible actions. It may also contain Commands that are executed on a
@@ -71,17 +74,14 @@ class Scene(BaseModel):
 
     scene_id: str
     description: str
-    additional_descs: list[tuple[Check, str]] = []
-    actions: list[Action]  # Scene should have at least 1 action for exiting it
+    actions: list[Action] = field(default_factory=list)
+    additional_descs: list[tuple[Check, str]] = field(default_factory=list)
 
 
 class SceneStorageInterface(ABC):
     """
     Returns scenes by ID
     """
-
-    def __init__(self):
-        pass
 
     def get_scene_by_id(self, scene: str) -> Scene:
         pass

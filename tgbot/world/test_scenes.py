@@ -1,7 +1,7 @@
-"""
-A bunch of Scene instances created for the testing
-"""
-
+# """
+# A bunch of Scene instances created for the testing
+# """
+#
 from tgbot.world.scene import (
     Action,
     Check,
@@ -128,7 +128,7 @@ rocks_scene = Scene(
 )
 
 final_scene = Scene(
-    scene_id="Final",
+    scene_id="final",
     description="К сожалению, нормальное количество контента будет добавлено когда-нибудь потом. На данный момент это конец.",  # noqa:E501
 )
 

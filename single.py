@@ -3,7 +3,10 @@
 """
 A singleplayer engine for testing
 """
-from tgbot.world.scene import Action, Check, Command, CommandType
+from argparse import ArgumentParser
+
+from tgbot.clients.postgres_client import PSQLSceneStorage
+from tgbot.world.scene import Action, Check, Command, CommandType, SceneStorageInterface
 from tgbot.world.test_scenes import TestStorage
 
 
@@ -12,11 +15,11 @@ class Engine:
     Single-player engine for testing in the console
     """
 
-    def __init__(self, starting_scene: str = "start"):
+    def __init__(self, storage: SceneStorageInterface, starting_scene: str = "start"):
         self.vars = dict()
         self._current_scene = None
         self.starting_scene = starting_scene
-        self.storage = TestStorage()
+        self.storage = storage
         self.command_overrides = {
             "scene": self.print_scene,
             "vars": self.print_vars,
@@ -125,6 +128,17 @@ class Engine:
 
 
 if __name__ == "__main__":
-    e = Engine()
+    parser = ArgumentParser("Test singleplayer engine")
+    parser.add_argument(
+        "-s", type=str, default="local", help="Storage to use (local or postgres)"
+    )
+    args = parser.parse_args()
+    if args.s == "local":
+        storage = TestStorage()
+    elif args.s == "postgres":
+        storage = PSQLSceneStorage()
+    else:
+        raise ValueError(f"Invalid storage type {args.s}")
+    e = Engine(storage, starting_scene="start")
     while True:
         e.process_input(input(">"))
