@@ -4,6 +4,20 @@ An attempt to make MUD-like game in a Telegram bot. This is forked from
 [this template repo](https://github.com/Latand/tgbot_template), and the rest of
 the README is from there.
 
+## Build and deploy
+
+Use `docker buildx` in repository root to build the project. All
+variables listed in `.env.example` should be set to their appropriate values on
+build machine; normally this is done via github secrets (see build pipeline in
+`.github/` directory), but could be done locally. Images are automatically
+pushed to Docker Hub as `synedraacus/mud_bot:latest` and can be downloaded from
+there via docker compose.
+
+The machine on which the bot runs can be basically anything that has Internet
+access and Docker compose, but in my case it is run on a minimal EC2 instance.
+Since the bot currently uses short polling to communicate with Telegram servers,
+having a static IP and/or URL is not necessary.
+
 ## About the template
 
 **Structure:**

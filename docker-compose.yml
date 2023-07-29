@@ -6,9 +6,6 @@ services:
     image: "synedraacus/mud_bot"
     container_name: "mud_bot"
     stop_signal: SIGINT
-    build:
-      context: .
-      dockerfile: ./Dockerfile
     restart: always
     environment:
       # No anchor: only three postgres variables are shared between images
@@ -26,11 +23,11 @@ services:
       - REDIS_PWD=${REDIS_PWD}
     depends_on:
       - postgresql
-      - redis
+      - redis~
     networks:
       - tg_bot
   postgresql:
-    image: postgres
+    image: postgres:15.3
     restart: always
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -43,9 +40,7 @@ services:
     networks:
       - tg_bot
   redis:
-    # TODO: replace with redis/redis later to decrease image size
-    # but this is useful for dev because it gives me a browser interface
-    image: redis/redis-stack
+    image: redis:6.0.20-alpine
     volumes:
       - redis_data:/data
     expose:
